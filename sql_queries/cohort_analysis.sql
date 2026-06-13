@@ -1,31 +1,31 @@
--- Когортний аналіз: утримання клієнтів (Retention Rate) по місяцях
+-- Cohort Analysis: Customer Retention Rate by Month
 WITH user_cohorts AS (
-    -- 1. Визначаємо місяць реєстрації (когорту) для кожного користувача
+    -- 1. Identify the registration month (cohort) for each user
     SELECT 
         user_id,
         strftime('%Y-%m', registration_date) as cohort_month
     FROM users
 ),
 user_orders AS (
-    -- 2. Визначаємо місяці, в яких кожен користувач робив замовлення
+    -- 2. Identify the unique months in which each user placed an order
     SELECT DISTINCT
         user_id,
         strftime('%Y-%m', order_date) as order_month
     FROM orders
 ),
 cohort_sizes AS (
-    -- 3. Рахуємо загальну кількість користувачів у кожній когорті
+    -- 3. Calculate the total number of unique users within each cohort
     SELECT 
         cohort_month,
         COUNT(DISTINCT user_id) as total_users
     FROM user_cohorts
     GROUP BY cohort_month
 )
--- 4. Об'єднуємо все разом, щоб порахувати кількість активних користувачів по місяцях
+-- 4. Join components to calculate active users and retention percentages over time
 SELECT 
-    c.cohort_month,
+    c.cohort_month as cohort,
     s.total_users as cohort_size,
-    -- Рахуємо кількість місяців, що минули з моменту реєстрації
+    -- Calculate the number of months passed since the initial registration date
     (CAST(strftime('%Y', o.order_month) AS INT) - CAST(strftime('%Y', c.cohort_month) AS INT)) * 12 +
     (CAST(strftime('%m', o.order_month) AS INT) - CAST(strftime('%m', c.cohort_month) AS INT)) as month_number,
     COUNT(DISTINCT o.user_id) as active_users,

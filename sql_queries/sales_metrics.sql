@@ -1,13 +1,13 @@
--- 1. Загальні бізнес-метрики інтернет-магазину
+-- 1. General E-Commerce Business Key Performance Indicators (KPIs)
 SELECT 
     COUNT(DISTINCT o.order_id) as total_orders,
     COUNT(DISTINCT o.user_id) as active_customers,
     ROUND(SUM(o.quantity * p.price), 2) as total_revenue,
-    ROUND(SUM(o.quantity * p.price) / COUNT(DISTINCT o.order_id), 2) as average_order_value (AOV)
+    ROUND(SUM(o.quantity * p.price) / COUNT(DISTINCT o.order_id), 2) as average_order_value_aov
 FROM orders o
 JOIN products p ON o.product_id = p.product_id;
 
--- 2. Аналіз категорій товарів за виручкою та обсягами продажів
+-- 2. Product Category Performance Analysis by Revenue and Sales Volume
 SELECT 
     p.category,
     SUM(o.quantity) as total_units_sold,

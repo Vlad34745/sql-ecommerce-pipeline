@@ -1,15 +1,24 @@
-# Віртуальне середовище
+# Virtual Environments
 venv/
 .venv/
+ENV/
+env/
 
-# Бази даних (будуть лежати в папці data)
+# Databases (local analytical storage)
 data/*.db
 data/*.sqlite
+data/*.sqlite3
 
-# Кеш Python
+# Python Cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
 
-# Локальні файли налаштувань
+# Local IDE Settings
 .vscode/
+.idea/
+
+# Secure Environment Variables (Credentials)
 .env

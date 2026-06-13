@@ -1,24 +1,24 @@
 import sqlite3
 import os
 
-# Визначаємо шлях до бази даних (кладемо її в папку data)
+# Define the database path (stored inside the 'data' directory)
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "ecommerce_local.db")
 
 def get_connection():
-    """Створює та повертає підключення до бази даних SQLite з підтримкою Foreign Keys."""
+    """Establishes and returns a connection to the SQLite database with Foreign Keys enabled."""
     conn = sqlite3.connect(DB_PATH)
-    # Обов'язково вмикаємо підтримку зовнішніх ключів (у SQLite вона вимкнена за замовчуванням)
+    # Explicitly enable Foreign Key support (disabled by default in SQLite)
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
 
 def init_db():
-    """Створює схему бази даних: таблиці users, products, orders та індекси."""
+    """Deploys the database schema: initializes users, products, orders tables, and indexes."""
     print(f"[DB] Initializing database at: {DB_PATH}")
     
     conn = get_connection()
     cursor = conn.cursor()
     
-    # 1. Створюємо таблицю Користувачів (Users)
+    # 1. Create the Users table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,7 +28,7 @@ def init_db():
     );
     """)
     
-    # 2. Створюємо таблицю Товарів (Products)
+    # 2. Create the Products table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS products (
         product_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +38,7 @@ def init_db():
     );
     """)
     
-    # 3. Створюємо таблицю Замовлень (Orders)
+    # 3. Create the Orders table with Foreign Key constraints
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS orders (
         order_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,8 +51,8 @@ def init_db():
     );
     """)
     
-    # 4. Створюємо індекси для оптимізації майбутніх аналітичних SQL-запитів
-    # Індекси пришвидшать операції JOIN та фільтрацію по датах у мільйони разів
+    # 4. Create database indexes to optimize future analytical SQL queries
+    # Indexes drastically speed up JOIN operations and date filtering under heavy loads
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);")
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_orders_date ON orders(order_date);")
     
@@ -61,5 +61,5 @@ def init_db():
     print("[DB] Database schema and indexes deployed successfully!")
 
 if __name__ == "__main__":
-    # Тестовий запуск модуля напряму для перевірки
+    # Test execution to verify database creation and schema validation
     init_db()
