@@ -12,11 +12,18 @@ def get_connection():
     return conn
 
 def init_db():
-    """Deploys the database schema: initializes users, products, orders tables, and indexes."""
+    """Deploys the database schema: flushes old tables and initializes new schemas with indexes."""
     print(f"[DB] Initializing database at: {DB_PATH}")
     
     conn = get_connection()
     cursor = conn.cursor()
+    
+    # 0. Drop existing tables if they exist to prevent IntegrityError on re-runs
+    # Order matters: drop dependent tables first due to Foreign Key constraints
+    cursor.execute("DROP TABLE IF EXISTS orders;")
+    cursor.execute("DROP TABLE IF EXISTS products;")
+    cursor.execute("DROP TABLE IF EXISTS users;")
+    print("[DB] Existing database tables flushed successfully.")
     
     # 1. Create the Users table
     cursor.execute("""
@@ -58,7 +65,7 @@ def init_db():
     
     conn.commit()
     conn.close()
-    print("[DB] Database schema and indexes deployed successfully!")
+    print("[DB] New database schema and performance indexes deployed successfully!")
 
 if __name__ == "__main__":
     # Test execution to verify database creation and schema validation
