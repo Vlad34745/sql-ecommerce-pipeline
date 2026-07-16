@@ -28,28 +28,55 @@ sql-ecommerce-pipeline/
 ├── .env.example            # Template for cloud database credentials
 ├── .gitignore              # Protects venv and database files from leakage
 └── run_sql_pipeline.bat    # One-click execution batch file
+```
 
-📊 Analytics Deep Dive
-1. Customer Lifetime Value (LTV)
+## 📊 Analytics Deep Dive
+
+### 1. Customer Lifetime Value (LTV)
 Identifies high-value customers ("whales") and ranks them based on their cumulative net revenue contribution using SQL window functions. This metric enables businesses to optimize their Customer Acquisition Cost (CAC) thresholds.
 
-2. Cohort Retention Matrix
+### 2. Cohort Retention Matrix
 Groups users into monthly sign-up cohorts and tracks their return activity over subsequent months.
 
-Month 0: Setup month (initial registration & baseline purchase).
-
-Month 1-3: Retention performance.
+- **Month 0**: Setup month (initial registration & baseline purchase).
+- **Month 1-3**: Retention performance.
 
 Note: Future cohorts (e.g., Month 2 for recent sign-ups) naturally evaluate to 0.0%, mirroring time-locked real-world corporate systems.
 
-⚙️ How to Run Locally
-1. Clone the repository:
-git clone [https://github.com/Vlad34745/sql-ecommerce-pipeline.git](https://github.com/Vlad34745/sql-ecommerce-pipeline.git)
-cd sql-ecommerce-pipeline
+## ⚙️ How to Run Locally
 
-2. Configure your Cloud DB Environment:
-Create a .env file based on .env.example and paste your secure database connection string:
-DATABASE_URL=postgresql://user:password@host/neondb?sslmode=require
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Vlad34745/sql-ecommerce-pipeline.git
+   cd sql-ecommerce-pipeline
+   ```
 
-3. Execute via terminal or double-click the .bat file:
-python -m core.pipeline
+2. **Create and activate a virtual environment:**
+   ```bash
+   python -m venv venv
+   # Windows
+   venv\Scripts\activate
+   # macOS/Linux
+   source venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configure your cloud DB environment:**
+   Create a `.env` file based on `.env.example` and paste your secure database connection string:
+   ```
+   DATABASE_URL=postgresql://user:password@host/neondb?sslmode=require
+   ```
+   (A free PostgreSQL instance can be created at [Neon.tech](https://neon.tech) in a couple of minutes.)
+
+5. **Run the pipeline:**
+   ```bash
+   python -m core.pipeline
+   ```
+   Or, on Windows, simply double-click `run_sql_pipeline.bat`.
+
+6. **Output:**
+   The pipeline regenerates the local SQLite database (`data/ecommerce_local.db`) and the cloud PostgreSQL tables from scratch on every run, then prints a Cohort Retention Report straight to the console using live data pulled from the cloud database.
