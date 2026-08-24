@@ -1,4 +1,6 @@
-pandas
-Faker
-python-dotenv
-psycopg2-binary
+pandas>=2.2,<3
+Faker>=37,<38
+python-dotenv>=1.0,<2
+psycopg2-binary>=2.9,<3
+pytest>=8,<9
+streamlit>=1.45,<2

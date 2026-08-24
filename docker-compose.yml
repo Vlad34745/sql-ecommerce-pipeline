@@ -1,0 +1,16 @@
+services:
+  pipeline:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    command: python -m core.pipeline
+
+  dashboard:
+    build: .
+    env_file: .env
+    ports:
+      - "8501:8501"
+    command: streamlit run dashboard/app.py --server.address=0.0.0.0
+    depends_on:
+      - pipeline
