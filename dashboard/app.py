@@ -2,6 +2,9 @@ import os
 import streamlit as st
 import pandas as pd
 import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 st.set_page_config(page_title="E-commerce Analytics", layout="wide")
 st.title("E-commerce Analytics Dashboard")
