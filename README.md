@@ -1,4 +1,6 @@
 # E-commerce Data Engineering Pipeline
+![CI](https://github.com/Vlad34745/sql-ecommerce-pipeline/actions/workflows/ci.yml/badge.svg)
+![codecov](https://codecov.io/gh/Vlad34745/sql-ecommerce-pipeline/branch/main/graph/badge.svg)
 
 An end-to-end portfolio project that demonstrates **Python ETL, PostgreSQL, SQLite, data quality, idempotent loading, analytical SQL, testing, CI and a lightweight BI dashboard**.
 
