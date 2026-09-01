@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from faker import Faker
 
 PRODUCT_TEMPLATES = [

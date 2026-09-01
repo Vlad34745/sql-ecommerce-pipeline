@@ -8,6 +8,7 @@ class QualityResult:
 def validate_records(products, users, orders):
     checks = []
     checks.append(("users_not_empty", bool(users), f"{len(users)} users"))
+    checks.append(("valid_batch_sizes", len(users) > 0 and len(orders) > 0, "users/orders counts are positive"))
     checks.append(("products_not_empty", bool(products), f"{len(products)} products"))
     checks.append(("orders_not_empty", bool(orders), f"{len(orders)} orders"))
 

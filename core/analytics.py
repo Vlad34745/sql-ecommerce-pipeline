@@ -1,5 +1,5 @@
 import pandas as pd
-from core.postgres_manager import get_pg_connection
+from core.postgres_manager import get_pg_engine
 
 QUERIES = {
     "sales": """
@@ -50,5 +50,5 @@ QUERIES = {
 }
 
 def run_query(name):
-    with get_pg_connection() as conn:
+    with get_pg_engine().connect() as conn:
         return pd.read_sql_query(QUERIES[name], conn)

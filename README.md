@@ -103,11 +103,15 @@ Local SQLite only:
 python -m core.pipeline --skip-postgres
 ```
 
-Reset both databases:
+Reset both databases (destructive; use once when migrating an old local/cloud database):
 
 ```bash
 python -m core.pipeline --reset
 ```
+
+Normal runs do **not** clear either database. They use stable `source_*_id` values and PostgreSQL/SQLite UPSERTs. Re-running the same `--seed` is therefore idempotent.
+
+For an existing PostgreSQL database created by the older version of this project, run the command above once to recreate the schema with `source_*_id` columns.
 
 Generate a new deterministic batch:
 
