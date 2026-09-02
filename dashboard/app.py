@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Streamlit only adds this script's own folder (dashboard/) to sys.path,
+# not the project root — so `core` wouldn't be importable without this,
+# regardless of the working directory `streamlit run` is launched from.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 import pandas as pd
 import altair as alt

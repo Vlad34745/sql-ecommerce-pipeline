@@ -139,6 +139,9 @@ After configuring `DATABASE_URL`:
 streamlit run dashboard/app.py
 ```
 
+![Dashboard overview](docs/dashboard-overview.png)
+![Cohort retention heatmap](docs/dashboard-cohort.png)
+
 The dashboard shows revenue, orders, active customers, AOV, category performance and top customers by LTV.
 
 ## Data quality
